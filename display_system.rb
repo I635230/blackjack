@@ -11,7 +11,7 @@ class DisplaySystem
       'heart' => 'ハート',
       'clover' => 'クローバー',
       'spade' => 'スペード',
-      'diamond' => 'ダイヤモンド'
+      'diamond' => 'ダイヤ'
     }
   end
 

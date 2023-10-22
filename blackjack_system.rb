@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 require './subject'
 
 class BlackjackSystem
@@ -75,4 +78,60 @@ class BlackjackSystem
     elsif player.sum_point == dealer.sum_point then DisplaySystem.puts_judge_outcome(:tie)
     end
   end
+
+  # ----------------------------------------------------------------点数管理システム クラスを分けた方が良さそう
+
+  # def calculate_sum_point
+  #   @sum_point = 0
+  #   @hand.each do |symbol, number|
+  #     @sum_point += convert_number_to_point(number)
+  #   end
+  #   @sum_point
+  # end
+
+  def calculate_sum_point(gambler)
+    hand = gambler.hand
+    sum_point_list = [0]
+    hand.each do |symbol, number|
+      if number == 1
+        tmp_sum_point_list = sum_point_list
+        sum_point_list = []
+        tmp_sum_point_list.each do |each_sum_point|
+          sum_point_list.append(each_sum_point + 1)
+          sum_point_list.append(each_sum_point + 11)
+        end
+      else
+        sum_point_list.each_with_index do |each_sum_point, i|
+          sum_point_list[i] += convert_number_to_point(number)
+        end
+      end
+    end
+    gambler.sum_point = max_point(sum_point_list, gambler)
+  end
+
+  def max_point(sum_point_list, gambler)
+    max_sum_point = 0
+    sum_point_list.each do |each_sum_point|
+     if each_sum_point >= 0 && each_sum_point <= 21
+      max_sum_point = [max_sum_point, each_sum_point].max
+     end
+    end
+    if max_sum_point == 0
+      gambler.sum_point = 10**8
+      deal_burst(gambler)
+    else 
+      max_sum_point
+    end
+  end
+
+  def convert_number_to_point(number)
+    # debugger
+    if number >= 10
+      10
+    else
+      number
+    end
+  end
+
+  # ----------------------------------------------------------------点数管理システム クラスを分けた方が良さそう
 end

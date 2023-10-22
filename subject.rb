@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 module Subject
   def subject_branch(gambler)
     case gambler

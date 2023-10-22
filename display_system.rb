@@ -1,7 +1,11 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
+require './subject'
+
 class DisplaySystem
+  include Subject
+
   def initialize
     @correspondence_table = {
       'heart' => 'ハート',
@@ -23,14 +27,6 @@ class DisplaySystem
 
   def self.puts_line
     puts '-----------------------------------------------------'
-  end
-
-  def subject_branch(gambler)
-    case gambler
-    when MainPlayer then 'あなた'
-    when CPUPlayer then 'CPUプレーヤー'
-    when Dealer then 'ディーラー'
-    end
   end
 
   def show_drawing_a_card(card, gambler)
@@ -59,7 +55,7 @@ class DisplaySystem
 
   def show_dealer_hand_second(dealer)
     symbol, number = dealer.hand[1]
-    puts "ディーラーの引いたカードは#{@correspondence_table[symbol]}の#{number}でした。"
+    puts "ディーラーの引いた2枚目のカードは#{@correspondence_table[symbol]}の#{number}でした。"
   end
 
   def confirm_draw_a_card(player)

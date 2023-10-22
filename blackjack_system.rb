@@ -1,16 +1,12 @@
+require './subject'
+
 class BlackjackSystem
+  include Subject
+
   def initialize(player_count)
     @player_count = player_count
     @dealer_count = 1
     @gambler_count = @player_count + @dealer_count
-  end
-
-  def subject_branch(gambler)
-    case gambler
-    when MainPlayer then 'あなた'
-    when CPUPlayer then 'CPUプレーヤー'
-    when Dealer then 'ディーラー'
-    end
   end
   
   def make_a_deck

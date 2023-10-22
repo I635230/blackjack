@@ -1,0 +1,2 @@
+class MainPlayer < Player
+end

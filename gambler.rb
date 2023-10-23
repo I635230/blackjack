@@ -6,5 +6,6 @@ class Gambler
  
   def initialize
     @hand = []
+    @sum_point = 0
   end
 end

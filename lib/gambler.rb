@@ -1,9 +1,11 @@
 class Gambler
-  attr_reader :hand, :point, :outcome
+  attr_reader :hand, :point, :outcome, :draw_restriction
 
   def initialize
     @hand = Hand.new
     @outcome = :None
+    @point = 0
+    @draw_restriction = false
   end
 
   def judge_continue
@@ -17,5 +19,9 @@ class Gambler
 
   def set_outcome=(outcome)
     @outcome = outcome
+  end
+
+  def on_draw_restriction
+    @draw_restriction = true
   end
 end

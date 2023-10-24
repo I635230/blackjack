@@ -45,6 +45,18 @@ module Display
     end
   end
 
+  def self.show_confirm_double_down(gambler)
+    puts "#{gambler.subject}はダブルダウンしますか？"
+  end
+
+  def self.show_confirm_surrender(gambler)
+    puts "#{gambler.subject}はサレンダーしますか？"
+  end
+
+  def self.show_decision_surrender(gambler)
+    puts "#{gambler.subject}はサレンダーしました。"
+  end
+
   def self.show_point(gambler)
     print "#{gambler.subject}の現在の得点は#{gambler.point}点です。"
   end
@@ -93,6 +105,7 @@ module Display
       when :win then puts "勝利したので、#{player.subject}がベットした#{player.bet}枚の1.5倍を払い戻し、所持チップ数は#{player.chip.to_i}枚となります。"
       when :lose then puts "敗北したので、#{player.subject}がベットした#{player.bet}枚は失われ、所持チップ数は#{player.chip}枚となります。"
       when :tie then puts "引き分けなので、#{player.subject}がベットした#{player.bet}枚を払い戻し、所持チップ数は#{player.chip}枚となります。"
+      when :surrender then puts "サレンダーしたので、#{player.subject}がベットした#{player.bet}枚の半分を払い戻し、所持チップ数は#{player.chip.to_i}枚となります。"
       end
     end
   end

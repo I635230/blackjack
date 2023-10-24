@@ -55,11 +55,22 @@ class Game
 
   def play_turn
     @gambler_array.each do |gambler|
+      if gambler.is_a?(MainPlayer)
+        if deal_surrender(gambler)
+          next
+        end
+
+        if deal_double_down(gambler)
+          gambler.change_chip
+          gambler.on_draw_restriction
+        end
+      end
       loop do
         # show_hand(gambler)
         gambler.set_point=(@point.calculate_point(gambler))
         Display.show_point(gambler)
         break if deal_burst(gambler)
+        break if gambler.draw_restriction && gambler.hand.draw_count >= 3
         gambler.is_a?(MainPlayer) ? Display.show_confirm_continue : Display.new_line
         break unless gambler.judge_continue
         card = @deck.draw
@@ -67,6 +78,24 @@ class Game
         Display.show_drawing_a_card(card, gambler)
       end
     end
+  end
+
+  def deal_surrender(gambler)
+    Display.show_confirm_surrender(gambler)
+    if Input.input_surrender
+      gambler.set_outcome = :surrender
+      Display.show_decision_surrender(gambler)
+      return true
+    end
+    false
+  end
+
+  def deal_double_down(gambler)
+    Display.show_confirm_double_down(gambler)
+    if Input.input_double_down
+      return true
+    end
+    false
   end
 
   def deal_burst(gambler)
@@ -89,6 +118,7 @@ class Game
   def confirm_outcome
     @player_array.each do |player|
       next if player.outcome == :lose
+      next if player.outcome == :surrender
       if @dealer.outcome == :lose
         player.set_outcome = :win
         next
@@ -106,6 +136,7 @@ class Game
       case player.outcome
       when :win then player.add_chip(player.bet * 1.5)
       when :tie then player.add_chip(player.bet)
+      when :surrender then player.add_chip(player.bet * 0.5)
       end
     end
   end

@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 require_relative 'player'
 
 class MainPlayer < Player
@@ -11,6 +13,11 @@ class MainPlayer < Player
     chip = Input.input_set_chip
     @bet = chip
     @chip -= chip
+  end
+
+  def change_chip
+    @chip -= @bet
+    @bet = @bet*2
   end
 
   def judge_continue

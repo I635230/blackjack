@@ -31,4 +31,26 @@ module Input
       input_set_chip
     end
   end
+
+  def self.input_surrender
+    input = gets.chomp.downcase
+    case input
+    when 'y' then true
+    when 'n' then false
+    else
+      Display.show_yn
+      input_surrender
+    end
+  end
+
+  def self.input_double_down
+    input = gets.chomp.downcase
+    case input
+    when 'y' then true
+    when 'n' then false
+    else
+      Display.show_yn
+      input_surrender
+    end
+  end
 end

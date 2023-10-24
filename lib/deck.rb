@@ -21,7 +21,6 @@ class Deck
   end
 
   def draw
-    # @cards.pop
-    @cards.push(0)
+    @cards.shift
   end
 end

@@ -4,9 +4,11 @@ require_relative 'dealer'
 require_relative 'card'
 require_relative 'deck'
 require_relative 'hand'
+require_relative 'display'
 
 class Game
   def initialize
+    @display = Display.new
     @player1 = MainPlayer.new
     @player2 = CPUPlayer.new
     @player3 = CPUPlayer.new

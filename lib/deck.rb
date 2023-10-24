@@ -3,7 +3,7 @@ class Deck
 
   def initialize
     @cards = generate_deck
-    # shuffle
+    shuffle
   end
 
   def generate_deck

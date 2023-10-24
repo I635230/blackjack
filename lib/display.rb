@@ -5,13 +5,9 @@ module Display
   NAME_LIST = {
     heart: 'ハート', 
     spade: 'スペード', 
-    colver: 'クローバー', 
+    clover: 'クローバー', 
     diamond: 'ダイヤ'
   }
-
-  # def set_gambler_array=(gambler_array)
-  #   @gambler_array = gambler_array
-  # end
 
   def self.show_select_number_of_players
     puts '-----------------------------------------------------'
@@ -25,44 +21,79 @@ module Display
     puts '-----------------------------------------------------'
   end
 
-  # def show_end_message
-  #   puts 'ブラックジャックを終了します。'
-  #   puts '-----------------------------------------------------'
-  # end
+  def self.show_end_message
+    puts 'ブラックジャックを終了します。'
+    puts '-----------------------------------------------------'
+  end
+
+  def self.show_set_chip(player)
+    puts "あなたの所持チップは#{player.chip}枚です。ベットする枚数を決めてください。"
+  end
 
   def self.show_hands(gambler_array)
     gambler_array.each do |gambler|
-      hand = gambler.hand
-      hand.each_with_index do |hand_i, i|
-        symbol, number = hand_i
+      cards = gambler.hand.cards
+      cards.each_with_index do |card, i|
         times = i+1
         if gambler.is_a?(Dealer) && times == 2
           puts "#{gambler.subject}の#{times}番目に引いたカードはわかりません。" 
         else
-          puts "#{gambler.subject}の#{times}番目に引いたカードは#{NAME_LIST[symbol]}の#{number}です。"
+          puts "#{gambler.subject}の#{times}番目に引いたカードは#{NAME_LIST[card.suit]}の#{card.number}です。"
         end
       end
       puts '-----------------------------------------------------'
     end
   end
 
-  # def show_point(gambler)
-  #   puts "#{gambler.subject}の現在の得点は#{gambler.point}です。"
-  # end
+  def self.show_point(gambler)
+    print "#{gambler.subject}の現在の得点は#{gambler.point}点です。"
+  end
 
-  # def show_confirm_continue
-  #   puts "カードを引きますか？(Y/n)"
-  # end
+  def self.show_confirm_continue
+    puts "カードを引きますか？(Y/n)"
+    puts '-----------------------------------------------------'
+  end
 
-  # def show_drawing_a_card(card, gambler)
-  #   symbol, number = card
-  #   puts "#{gambler.subject}は#{NAME_LIST[symbol]}の#{number}を引いた。"
-  # end
+  def self.new_line
+    print "\n"
+    puts '-----------------------------------------------------'
+  end
 
-  # def show_final_point
-  #   @gambler_array.each do |gambler|
-  #     puts "#{gambler.subject}の得点は#{gambler.point}点です。"
-  #   end
-  #   puts '-----------------------------------------------------'
-  # end
+  def self.show_drawing_a_card(card, gambler)
+    puts "#{gambler.subject}は#{NAME_LIST[card.suit]}の#{card.number}を引いた。"
+  end
+
+  def self.show_burst(gambler)
+    puts "#{gambler.subject}はバーストしたので、ターンを終了します。"
+    puts '-----------------------------------------------------'
+  end
+
+  def self.show_yn
+    puts 'Yかnを入力してください。'
+  end
+
+  def self.show_123
+    puts '1, 2, 3のいずれかを入力してください。'
+  end
+
+  def self.show_number_range
+    puts '10以上100以下の整数を入力してください。'
+  end
+
+  def self.show_final_point(gambler_array)
+    gambler_array.each do |gambler|
+      puts "#{gambler.subject}の最終得点は#{gambler.point}点です。"
+    end
+    puts '-----------------------------------------------------'
+  end
+
+  def self.show_final_chip(player_array)
+    player_array.each do |player|
+      case player.outcome
+      when :win then puts "勝利したので、#{player.subject}がベットした#{player.bet}枚の1.5倍を払い戻し、所持チップ数は#{player.chip.to_i}枚となります。"
+      when :lose then puts "敗北したので、#{player.subject}がベットした#{player.bet}枚は失われ、所持チップ数は#{player.chip}枚となります。"
+      when :tie then puts "引き分けなので、#{player.subject}がベットした#{player.bet}枚を払い戻し、所持チップ数は#{player.chip}枚となります。"
+      end
+    end
+  end
 end

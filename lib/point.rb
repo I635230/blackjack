@@ -1,3 +1,39 @@
 class Point
-  
+  def calculate_point(gambler)
+    point_list = [0]
+    gambler.hand.cards.each do |card|
+      tmp_point_list = []
+      point_list.each do |point|
+        if card.number == 'A'
+          tmp_point_list.push(point + 1)
+          tmp_point_list.push(point + 11)
+        else
+          tmp_point_list.push(point + convert_point(card.number))
+        end
+      end
+      point_list = tmp_point_list
+    end
+    max_point(point_list)
+  end
+
+  def max_point(point_list)
+    max_point = 0
+    point_list.each do |point|
+      max_point = [max_point, point].max unless max_point > 21
+    end
+    max_point = point_list.max if max_point.zero?
+    max_point
+  end
+
+  def convert_point(number)
+    return 10 if %w[J Q K].include?(number)
+    return 1 if number == 'A'
+    number.to_i
+  end
+
+  def judge_burst(gambler)
+    gambler.point
+    return true if gambler.point > 21
+    false
+  end
 end

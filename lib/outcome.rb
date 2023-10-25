@@ -1,7 +1,7 @@
 class Outcome
   def set_outcome(player, dealer)
-    return if player.outcome == :lose
-    return deal_dealer_lose(player) if dealer.outcome == :lose
+    return if [:lose, :surrender].include?(player.outcome)
+    return deal_dealer_lose(player, dealer) if dealer.outcome == :lose
     if player.point > dealer.point
       player.set_outcome = :win
     elsif player.point < dealer.point
@@ -13,7 +13,7 @@ class Outcome
 
   private
 
-  def deal_dealer_lose(player)
+  def deal_dealer_lose(player, dealer)
     if dealer.outcome == :lose
       player.set_outcome = :win
     end

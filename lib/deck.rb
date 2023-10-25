@@ -26,6 +26,10 @@ class Deck < MultiCards
     gambler.hand.cards.push(draw)
   end
 
+  def shuffle
+    @cards.shuffle!
+  end
+
   private
 
   def draw

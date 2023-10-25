@@ -27,18 +27,20 @@ class Game
 
   def set_environment
     @deck.make_deck
+    @deck.shuffle
     @deck.deal_out(@gambler_array)
   end
 
   def play_turn
-    @effect.special_effect
     @gambler_array.each do |gambler|
+      @effect.special_effect(gambler) if gambler.is_a?(MainPlayer)
+      @point.calculate(gambler)
       loop do
-        @point.calculate(gambler)
+        break if gambler.outcome == :surrender
         break unless gambler.judge_continue
         @deck.draw_add(gambler)
-        break unless @effect.confirm_bust
-        # break
+        @point.calculate(gambler)
+        break if @effect.confirm_bust(gambler)
       end
     end
   end
@@ -47,8 +49,10 @@ class Game
     @player_array.each do |player|
       @outcome.set_outcome(player, @dealer)
       @chip.process_chip(player)
-      puts "#{player.subject}, #{player.outcome}, #{player.bet}, #{player.bet}, #{player.hand.cards}"
+      puts "#{player.subject}, #{player.hand.cards}, #{player.hand_second.cards}"
+      # Display.show_final_chip(player)
     end
+    puts "#{@dealer.subject}, #{@dealer.outcome}, #{@dealer.hand.cards}"
   end
 
   private

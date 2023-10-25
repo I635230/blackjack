@@ -1,5 +1,9 @@
 require_relative 'input'
 require_relative 'deck'
+require_relative 'point'
+require_relative 'chip'
+require_relative 'effect'
+require_relative 'outcome'
 require_relative 'main_player'
 require_relative 'cpu_player'
 require_relative 'dealer'
@@ -27,20 +31,24 @@ class Game
   end
 
   def play_turn
-    # special_rule
-    # gambler_array.each do |gambler|
+    @effect.special_effect
+    @gambler_array.each do |gambler|
       loop do
-        # draw_add(gambler.hand)
-        # break unless judge_continue
-        break
+        @point.calculate(gambler)
+        break unless gambler.judge_continue
+        @deck.draw_add(gambler)
+        break unless @effect.confirm_bust
+        # break
       end
-    # end
+    end
   end
 
   def deal_outcome
-    # player_array.each do |player|
-      # outcome.set_outcome
-    # ends
+    @player_array.each do |player|
+      @outcome.set_outcome(player, @dealer)
+      @chip.process_chip(player)
+      puts "#{player.subject}, #{player.outcome}, #{player.bet}, #{player.bet}, #{player.hand.cards}"
+    end
   end
 
   private
@@ -48,7 +56,10 @@ class Game
   def make_basic_instance
     @input = Input.new
     @deck = Deck.new
-    # @outcomme = Outcome.new
+    @point = Point.new
+    @chip = Chip.new
+    @effect = Effect.new
+    @outcome = Outcome.new
   end
 
   def set_other_varibale
@@ -62,6 +73,7 @@ class Game
     @player3 = CPUPlayer.new
     @dealer = Dealer.new
     set_gambler_array
+    set_player_array
   end
 
   def set_gambler_array
@@ -70,7 +82,6 @@ class Game
                      when 3 then [@player1, @player2, @dealer]
                      when 4 then [@player1, @player2, @player3, @dealer]
                      end
-    set_player_array
   end
 
   def set_player_array

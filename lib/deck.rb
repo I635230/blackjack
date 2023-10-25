@@ -17,10 +17,13 @@ class Deck < MultiCards
   def deal_out(gambler_array)
     2.times do
       gambler_array.each do |gambler|
-        debugger
         gambler.hand.cards.push(draw)
       end
     end
+  end
+
+  def draw_add(gambler)
+    gambler.hand.cards.push(draw)
   end
 
   private

@@ -11,4 +11,8 @@ class Player < Gambler
     @chip -= input
     @bet = input
   end
+
+  def add_chip(chip_diff)
+    @chip += chip_diff
+  end
 end

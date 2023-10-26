@@ -1,5 +1,5 @@
-# frozen_string_literal: true
 # encoding: UTF-8
+# frozen_string_literal: true
 
 require_relative "input"
 require_relative "deck"
@@ -45,7 +45,6 @@ class Game
     @gambler_array.each do |gambler|
       @effect.deal_special_effect(gambler) if gambler.is_a?(MainPlayer)
       @display.show_dealer_hand_second(gambler) if gambler.is_a?(Dealer)
-      debugger
       gambler.hands.each do |hand|
         @point.calculate(hand)
         loop do

@@ -1,5 +1,5 @@
-# frozen_string_literal: true
 # encoding: UTF-8
+# frozen_string_literal: true
 
 # point
 class Point
@@ -43,9 +43,4 @@ class Point
       false
     end
   end
-
-  # private
-  #   def
-
-  #   end
 end

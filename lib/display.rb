@@ -1,5 +1,5 @@
-# frozen_string_literal: true
 # encoding: UTF-8
+# frozen_string_literal: true
 
 # display
 class Display
@@ -49,7 +49,7 @@ class Display
 
   def show_dealer_hand_second(dealer)
     hand = dealer.hands[0]
-    suit, number = hand.cards[1]
+    suit, number = hand.cards[1].suit, hand.cards[1].number
     puts "#{dealer.subject}の引いた2枚目のカードは#{NAME_LIST[suit]}の#{number}でした。"
   end
 

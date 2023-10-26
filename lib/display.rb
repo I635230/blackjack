@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+# encoding: UTF-8
 
 # display
 class Display
@@ -44,6 +45,12 @@ class Display
       end
     puts_line
     end
+  end
+
+  def show_dealer_hand_second(dealer)
+    hand = dealer.hands[0]
+    suit, number = hand.cards[1]
+    puts "#{dealer.subject}の引いた2枚目のカードは#{NAME_LIST[suit]}の#{number}でした。"
   end
 
   def show_point(gambler, hand)

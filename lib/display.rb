@@ -73,8 +73,8 @@ class Display
     puts "使用する特殊ルールを選択してください(sr/dd/sp/n)"
   end
 
-  def self.show_lack_chip
-    puts "チップが不足しているため、スプリットは行えません。"
+  def self.show_lack_chip(special_rule)
+    puts "チップが不足しているため、#{special_rule}は行えません。"
   end
 
   def self.show_not_match
@@ -95,10 +95,10 @@ class Display
   # deal_outcome
   def show_final_chip(player, hand, i)
     case hand.outcome
-    when :win then puts "#{player.subject}の手札#{i}が勝利したので、ベットした#{hand.bet}枚の1.5倍を払い戻し、所持チップ数は#{player.chip.to_i}枚となります。"
-    when :lose then puts "#{player.subject}の手札#{i}が敗北したので、ベットした#{hand.bet}枚は失われ、所持チップ数は#{player.chip}枚となります。"
-    when :tie then puts "#{player.subject}の手札#{i}が引き分けなので、ベットした#{hand.bet}枚を払い戻し、所持チップ数は#{player.chip}枚となります。"
-    when :surrender then puts "#{player.subject}の手札#{i}がサレンダーしたので、ベットした#{hand.bet}枚の半分を払い戻し、所持チップ数は#{player.chip.to_i}枚となります。"
+    when :win then puts "#{player.subject}は手札#{i}で勝利したので、ベットした#{hand.bet}枚の1.5倍を払い戻し、所持チップ数は#{player.chip.to_i}枚となります。"
+    when :lose then puts "#{player.subject}は手札#{i}で敗北したので、ベットした#{hand.bet}枚は失われ、所持チップ数は#{player.chip}枚となります。"
+    when :tie then puts "#{player.subject}は手札#{i}で引き分けたので、ベットした#{hand.bet}枚を払い戻し、所持チップ数は#{player.chip}枚となります。"
+    when :surrender then puts "#{player.subject}は手札#{i}でサレンダーしたので、ベットした#{hand.bet}枚の半分を払い戻し、所持チップ数は#{player.chip.to_i}枚となります。"
     end
   end
 
@@ -114,6 +114,10 @@ class Display
     puts_line
   end
 
+  def show_confirm_continue_game
+    puts "ゲームを続けますか？(Y/n)"
+    puts_line
+  end
 
   private
     def self.puts_line

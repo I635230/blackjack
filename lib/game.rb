@@ -25,6 +25,7 @@ class Game
   end
 
   def set_chip
+    @hand.reset_hands(@gambler_array) # 2週目以降で必要
     @player_array.each do |player|
       @display.show_set_bet(player) if player.is_a?(MainPlayer)
       player.is_a?(MainPlayer) ? bet = @input.input_bet : bet = 10
@@ -53,6 +54,7 @@ class Game
           @display.show_drawing_a_card(card, gambler)
           @point.calculate(hand)
           break if @point.deal_bust(hand)
+          break if @effect.confirm_double_down(gambler, hand)
         end
       end
     end
@@ -62,12 +64,16 @@ class Game
     @display.show_final_point(@gambler_array)
     @player_array.each do |player|
       player.hands.each_with_index do |hand, i|
-        debugger
         @outcome.set_outcome(hand, @dealer.hands[0])
         @chip.process_chip(player, hand)
         @display.show_final_chip(player, hand, i+1)
       end
     end
+  end
+
+  def confirm_continue
+    @display.show_confirm_continue_game
+    return @input.input_confirm_continue
   end
 
   private
@@ -79,6 +85,7 @@ class Game
       @outcome = Outcome.new
       @chip = Chip.new
       @display = Display.new
+      @hand = Hand.new
     end
 
     def set_other_varibale

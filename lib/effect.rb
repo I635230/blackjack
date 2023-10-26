@@ -30,25 +30,41 @@ class Effect
   def surrender(target)
     target.set_special = :surrender
     target.hands[0].set_outcome = :surrender
-    Display.show_decision_surrender
+    Display.show_decision_surrender(target)
   end
 
   def double_down(target)
+    hand = target.hands[0]
+    if target.chip < hand.bet
+      Display.show_lack_chip("ダブルダウン")
+      return
+    else
+      target.set_special = :double_down
+      target.add_bet(hand.bet, hand)
+      puts "ダブルダウンしました。あなたは1枚までしかカードをドローできません。"
+    end
   end
 
   def split(target)
     hands = target.hands
     if target.chip < hands[0].bet
-      Display.show_lack_chip
+      Display.show_lack_chip("スプリット")
       return
     end
     if confirm_same(hands[0].cards[0], hands[0].cards[1])
+      target.set_special = :split
       hands.push(Hand.new)
       hands[1].cards.push(hands[0].cards.shift)
-      target.set_bet(hands[0].bet, target.hands[1])
+      target.set_bet(hands[0].bet, hands[1])
+      puts "スプリットしました。"
     else
       Display.show_not_match
     end
+  end
+
+  def confirm_double_down(gambler, hand)
+    return true if gambler.special == :double_down && hand.draw_count == 1
+    false
   end
 
   private

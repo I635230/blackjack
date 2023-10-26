@@ -9,5 +9,5 @@ loop do
   game.set_environment
   game.play_turn
   game.deal_outcome
-  break
+  break unless game.confirm_continue
 end

@@ -43,6 +43,7 @@ class Deck
   def draw_add(hand)
     card = draw
     hand.cards.push(card)
+    hand.add_draw_count
     card
   end
 

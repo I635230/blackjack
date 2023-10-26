@@ -4,14 +4,17 @@ require_relative "gambler"
 
 # player
 class Player < Gambler
-  attr_reader :special
-
   def initialize
     super
   end
 
   def set_bet(input, hand)
     hand.set_bet = input
+    @chip -= input
+  end
+
+  def add_bet(input, hand)
+    hand.add_bet = input
     @chip -= input
   end
 

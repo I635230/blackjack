@@ -52,6 +52,10 @@ class Input
     end  
   end
 
+  def input_confirm_continue
+    input_ys
+  end
+
   private
     def input_ys
       input = gets.chomp.downcase

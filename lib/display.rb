@@ -1,12 +1,12 @@
-# encoding: UTF-8
 # frozen_string_literal: true
 
+# display
 module Display
   NAME_LIST = {
-    heart: 'ハート', 
-    spade: 'スペード', 
-    clover: 'クローバー', 
-    diamond: 'ダイヤ'
+    heart: "\u30CF\u30FC\u30C8",
+    spade: "\u30B9\u30DA\u30FC\u30C9",
+    clover: "\u30AF\u30ED\u30FC\u30D0\u30FC",
+    diamond: "\u30C0\u30A4\u30E4"
   }
 
 
@@ -24,11 +24,11 @@ module Display
 
   # play_turn
   def self.show_confirm_special_effect
-    puts '特殊ルールを使用しますか？(Y/n)'
+    puts "\u7279\u6B8A\u30EB\u30FC\u30EB\u3092\u4F7F\u7528\u3057\u307E\u3059\u304B\uFF1F(Y/n)"
   end
 
   def self.show_option_special_effect
-    puts 'どの特殊ルールを使用しますか？(sr/dd/sp/n)'
+    puts "\u3069\u306E\u7279\u6B8A\u30EB\u30FC\u30EB\u3092\u4F7F\u7528\u3057\u307E\u3059\u304B\uFF1F(sr/dd/sp/n)"
   end
 
   # deal_outcome
@@ -45,10 +45,9 @@ module Display
 
 
   private
-
-  def puts_line
-    puts '--------------------------------------------------------------'
-  end
+    def puts_line
+      puts "--------------------------------------------------------------"
+    end
 
 
 
@@ -81,7 +80,7 @@ module Display
   #     cards.each_with_index do |card, i|
   #       times = i+1
   #       if gambler.is_a?(Dealer) && times == 2
-  #         puts "#{gambler.subject}の#{times}番目に引いたカードはわかりません。" 
+  #         puts "#{gambler.subject}の#{times}番目に引いたカードはわかりません。"
   #       else
   #         puts "#{gambler.subject}の#{times}番目に引いたカードは#{NAME_LIST[card.suit]}の#{card.number}です。"
   #       end

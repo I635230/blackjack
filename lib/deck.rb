@@ -10,21 +10,21 @@ class Deck
     @cards = []
   end
 
-  # def make_deck
-  #   Card::SUITS.each do |suit|
-  #     Card::NUMBERS.each do |number|
-  #       @cards.push(Card.new(suit, number))
-  #     end
-  #   end
-  # end
-
   def make_deck
     Card::SUITS.each do |suit|
-      %w[3 3 3 3 3 3 3 3 3 3 3 3 3].each do |number|
+      Card::NUMBERS.each do |number|
         @cards.push(Card.new(suit, number))
       end
     end
   end
+
+  # def make_deck
+  #   Card::SUITS.each do |suit|
+  #     %w[A A A A A A A A A A].each do |number|
+  #       @cards.push(Card.new(suit, number))
+  #     end
+  #   end
+  # end
 
   def shuffle
     @cards.shuffle!
@@ -41,7 +41,9 @@ class Deck
   end
 
   def draw_add(hand)
-    hand.cards.push(draw)
+    card = draw
+    hand.cards.push(card)
+    card
   end
 
   private

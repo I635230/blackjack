@@ -22,7 +22,7 @@ class Point
   def max_point(point_list)
     max_point = 0
     point_list.each do |point|
-      max_point = [max_point, point].max unless max_point > 21
+      max_point = [max_point, point].max unless point > 21
     end
     max_point = point_list.min if max_point.zero?
     max_point
@@ -33,9 +33,14 @@ class Point
     number.to_i
   end
 
-  def confirm_bust(hand)
-    return true if hand.point > 21
-    false
+  def deal_bust(hand)
+    if hand.point > 21
+      hand.set_outcome = :lose
+      Display.show_bust
+      true
+    else
+      false
+    end
   end
 
   # private

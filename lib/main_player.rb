@@ -8,4 +8,8 @@ class MainPlayer < Player
     super
     @subject = "あなた"
   end
+
+  def judge_continue(input)
+    input
+  end
 end

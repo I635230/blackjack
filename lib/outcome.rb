@@ -13,4 +13,8 @@ class Outcome
       player_hand.set_outcome = :tie
     end
   end
+
+  def deal_dealer_lose
+    player
+  end
 end

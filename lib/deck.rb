@@ -10,22 +10,38 @@ class Deck
     @cards = []
   end
 
+  # def make_deck
+  #   Card::SUITS.each do |suit|
+  #     Card::NUMBERS.each do |number|
+  #       @cards.push(Card.new(suit, number))
+  #     end
+  #   end
+  # end
+
   def make_deck
     Card::SUITS.each do |suit|
-      Card::NUMBERS.each do |number|
+      %w[3 3 3 3 3 3 3 3 3 3 3 3 3].each do |number|
         @cards.push(Card.new(suit, number))
       end
     end
   end
 
+  def shuffle
+    @cards.shuffle!
+  end
+
   def deal_out(array)
     2.times do
       array.each do |target|
-        target.hand.each do |hand|
+        target.hands.each do |hand|
           hand.cards.push(draw)
         end
       end
     end
+  end
+
+  def draw_add(hand)
+    hand.cards.push(draw)
   end
 
   private

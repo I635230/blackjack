@@ -10,12 +10,12 @@ class Input
     50
   end
 
-  def self.input_special_effect
+  def input_special_effect
     case gets.chomp.downcase
-    when 'sr' then :surrender
-    when 'dd' then :double_down
-    when 'sp' then :split
-    when 'n' then false
+    when "sr" then :surrender
+    when "dd" then :double_down
+    when "sp" then :split
+    when "n" then false
     else
       # Display
       self.input_special_effect

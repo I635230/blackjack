@@ -3,9 +3,10 @@
 require_relative "input"
 require_relative "deck"
 require_relative "point"
-# require_relative 'chip'
 require_relative "effect"
 require_relative "outcome"
+require_relative 'chip'
+require_relative 'display'
 require_relative "main_player"
 require_relative "cpu_player"
 require_relative "dealer"
@@ -24,39 +25,41 @@ class Game
 
   def set_chip
     @player_array.each do |player|
-      player.set_bet(@input.input_bet)
+      player.set_bet(@input.input_bet, player.hands[0])
     end
   end
 
   def set_environment
     @deck.make_deck
-    # @deck.shuffle
+    @deck.shuffle
     @deck.deal_out(@gambler_array)
-    puts @player1.hand[0].cards[0].number
   end
 
   def play_turn
     @gambler_array.each do |gambler|
-      # @effect.special_effect(gambler) if gambler.is_a?(MainPlayer)
-      # @point.calculate(hand)
-      # loop do
-      #   break if gambler.outcome == :surrender
-      #   break unless gambler.judge_continue
-      #   @deck.draw_add(gambler)
-      #   @point.calculate(gambler)
-      #   break if @effect.confirm_bust(gambler)
-      # end
+      @effect.special_effect(gambler) if gambler.is_a?(MainPlayer)
+      gambler.hands.each do |hand|
+        @point.calculate(hand)
+        loop do
+          break if hand.outcome == :surrender
+          break unless gambler.judge_continue(hand)
+          @deck.draw_add(hand)
+          @point.calculate(hand)
+          break if @point.confirm_bust(hand)
+        end
+      end
     end
   end
 
   def deal_outcome
-    #   @player_array.each do |player|
-    #     @outcome.set_outcome(player, @dealer)
-    #     @chip.process_chip(player)
-    #     puts "#{player.subject}, #{player.hand.cards}, #{player.hand_second.cards}"
-    #     # Display.show_final_chip(player)
-    #   end
-    #   puts "#{@dealer.subject}, #{@dealer.outcome}, #{@dealer.hand.cards}"
+    @player_array.each do |player|
+      player.hands.each_with_index do |hand, i|
+        @outcome.set_outcome(hand, @dealer.hands[0])
+        @chip.process_chip(player, hand)
+        @display.show_final_chip(player, hand, i+1)
+      end
+    end
+    # print "#{@dealer.subject}, #{@dealer.outcome}, #{@dealer.hand.cards}"
   end
 
   # private
@@ -65,9 +68,10 @@ class Game
     @input = Input.new
     @deck = Deck.new
     @point = Point.new
-    #   @chip = Chip.new
     @effect = Effect.new
     @outcome = Outcome.new
+    @chip = Chip.new
+    @display = Display.new
   end
 
   def set_other_varibale

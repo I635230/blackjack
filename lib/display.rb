@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
 # display
-module Display
+class Display
   NAME_LIST = {
-    heart: "\u30CF\u30FC\u30C8",
-    spade: "\u30B9\u30DA\u30FC\u30C9",
-    clover: "\u30AF\u30ED\u30FC\u30D0\u30FC",
-    diamond: "\u30C0\u30A4\u30E4"
+    heart: "ハート",
+    spade: "スペード",
+    clover: "クローバー",
+    diamond: "ダイヤ"
   }
 
 
@@ -24,20 +24,20 @@ module Display
 
   # play_turn
   def self.show_confirm_special_effect
-    puts "\u7279\u6B8A\u30EB\u30FC\u30EB\u3092\u4F7F\u7528\u3057\u307E\u3059\u304B\uFF1F(Y/n)"
+    puts "特殊ルールを使用しますか？(Y/n)"
   end
 
   def self.show_option_special_effect
-    puts "\u3069\u306E\u7279\u6B8A\u30EB\u30FC\u30EB\u3092\u4F7F\u7528\u3057\u307E\u3059\u304B\uFF1F(sr/dd/sp/n)"
+    puts "使用する特殊ルールを選択してください(sr/dd/sp/n)"
   end
 
   # deal_outcome
-  def self.show_final_chip(player)
-    case player.outcome
-    when :win then puts "勝利したので、#{player.subject}がベットした#{player.bet}枚の1.5倍を払い戻し、所持チップ数は#{player.chip.to_i}枚となります。"
-    when :lose then puts "敗北したので、#{player.subject}がベットした#{player.bet}枚は失われ、所持チップ数は#{player.chip}枚となります。"
-    when :tie then puts "引き分けなので、#{player.subject}がベットした#{player.bet}枚を払い戻し、所持チップ数は#{player.chip}枚となります。"
-    when :surrender then puts "サレンダーしたので、#{player.subject}がベットした#{player.bet}枚の半分を払い戻し、所持チップ数は#{player.chip.to_i}枚となります。"
+  def show_final_chip(player, hand, i)
+    case hand.outcome
+    when :win then puts "#{player.subject}の手札#{i}が勝利したので、がベットした#{hand.bet}枚の1.5倍を払い戻し、所持チップ数は#{player.chip.to_i}枚となります。"
+    when :lose then puts "#{player.subject}の手札#{i}が敗北したので、ベットした#{hand.bet}枚は失われ、所持チップ数は#{player.chip}枚となります。"
+    when :tie then puts "#{player.subject}の手札#{i}が引き分けなので、ベットした#{hand.bet}枚を払い戻し、所持チップ数は#{player.chip}枚となります。"
+    when :surrender then puts "#{player.subject}の手札#{i}がサレンダーしたので、ベットした#{hand.bet}枚の半分を払い戻し、所持チップ数は#{player.chip.to_i}枚となります。"
     end
   end
 
@@ -54,20 +54,20 @@ module Display
 
 
   # def self.show_select_number_of_players
-  #   puts '-----------------------------------------------------'
-  #   puts 'プレーヤーの人数を選択してください。(1/2/3)'
+  #   puts_line
+  #   puts "プレーヤーの人数を選択してください。(1/2/3)"
   # end
 
   # def self.show_start_message(number) # TODO: 人数に制限をつける。それはDisplaySystemの外でやる
-  #   puts '-----------------------------------------------------'
+  #   puts "-----------------------------------------------------"
   #   puts "#{number}人が選択されました。プレーヤー#{number}人とディーラーで進行してきます。"
-  #   puts 'それでは、ブラックジャックを開始します。'
-  #   puts '-----------------------------------------------------'
+  #   puts "それでは、ブラックジャックを開始します。"
+  #   puts_line
   # end
 
   # def self.show_end_message
-  #   puts 'ブラックジャックを終了します。'
-  #   puts '-----------------------------------------------------'
+  #   puts "ブラックジャックを終了します。"
+  #   puts_line
   # end
 
   # def self.show_set_chip(player)
@@ -85,7 +85,7 @@ module Display
   #         puts "#{gambler.subject}の#{times}番目に引いたカードは#{NAME_LIST[card.suit]}の#{card.number}です。"
   #       end
   #     end
-  #     puts '-----------------------------------------------------'
+  #   puts_line
   #   end
   # end
 
@@ -107,12 +107,12 @@ module Display
 
   # def self.show_confirm_continue
   #   puts "カードを引きますか？(Y/n)"
-  #   puts '-----------------------------------------------------'
+  #   puts_line
   # end
 
   # def self.new_line
   #   print "\n"
-  #   puts '-----------------------------------------------------'
+  #   puts_line
   # end
 
   # def self.show_drawing_a_card(card, gambler)
@@ -121,25 +121,25 @@ module Display
 
   # def self.show_burst(gambler)
   #   puts "#{gambler.subject}はバーストしたので、ターンを終了します。"
-  #   puts '-----------------------------------------------------'
+  #   puts_line
   # end
 
   # def self.show_yn
-  #   puts 'Yかnを入力してください。'
+  #   puts "Yかnを入力してください。"
   # end
 
   # def self.show_123
-  #   puts '1, 2, 3のいずれかを入力してください。'
+  #   puts "1, 2, 3のいずれかを入力してください。"
   # end
 
   # def self.show_number_range
-  #   puts '10以上100以下の整数を入力してください。'
+  #   puts "10以上100以下の整数を入力してください。"
   # end
 
   # def self.show_final_point(gambler_array)
   #   gambler_array.each do |gambler|
   #     puts "#{gambler.subject}の最終得点は#{gambler.point}点です。"
   #   end
-  #   puts '-----------------------------------------------------'
+  #   puts_line
   # end
 end

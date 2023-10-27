@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # frozen_string_literal: true
 
 require_relative "display"
@@ -75,7 +74,7 @@ class Game
 
   def confirm_continue
     show_confirm_continue_game
-    return input_confirm_continue
+    input_confirm_continue
   end
 
   private
@@ -100,9 +99,9 @@ class Game
 
     def set_gambler_array
       @gambler_array = case @number_of_gamblers
-                      when 2 then [@player1, @dealer]
-                      when 3 then [@player1, @player2, @dealer]
-                      when 4 then [@player1, @player2, @player3, @dealer]
+                       when 2 then [@player1, @dealer]
+                       when 3 then [@player1, @player2, @dealer]
+                       when 4 then [@player1, @player2, @player3, @dealer]
       end
     end
 
@@ -121,7 +120,7 @@ class Game
         calculate(hand)
         break if deal_bust(hand)
         break if confirm_double_down(gambler, hand)
-      end      
+      end
     end
 
     def judge_continue(gambler, hand)
@@ -133,6 +132,6 @@ class Game
     end
 
     def correct_index(i)
-      i += 1
+      i + 1
     end
 end

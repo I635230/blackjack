@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # frozen_string_literal: true
 
 require_relative "display"
@@ -37,7 +36,7 @@ module Point
           tmp_point_list.push(point + convert_point(card.number))
         end
       end
-      point_list = tmp_point_list
+      tmp_point_list
     end
 
     def max_point(point_list)

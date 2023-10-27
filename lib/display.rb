@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # frozen_string_literal: true
 
 # display
@@ -40,15 +39,15 @@ module Display
     gambler_array.each do |gambler|
       cards = gambler.hands[0].cards
       cards.each_with_index do |card, i|
-        times = i+1
+        times = i + 1
         if gambler.is_a?(Dealer) && times == 2
           puts "#{gambler.subject}の#{times}番目に引いたカードはわかりません。"
         else
           puts "#{gambler.subject}の#{times}番目に引いたカードは [#{NAME_LIST[card.suit]}の#{card.number}] です。"
         end
       end
-    puts_line
-    sleep 1
+      puts_line
+      sleep 1
     end
   end
 
@@ -70,7 +69,7 @@ module Display
   end
 
   def show_confirm_continue
-    puts "カードを引きますか？(Y/n)"    
+    puts "カードを引きますか？(Y/n)"
     puts_line
   end
 
@@ -131,11 +130,11 @@ module Display
       print "#{player.subject}は"
       print "手札#{i}で" if player.confirm_split
       puts "敗北したので、ベットした#{hand.bet}枚が失われ、所持チップ数は#{player.chip}枚となります。"
-    when :tie 
+    when :tie
       print "#{player.subject}は"
       print "手札#{i}で" if player.confirm_split
       puts "引き分けたので、ベットした#{hand.bet}枚が払い戻され、所持チップ数は#{player.chip}枚となります。"
-    when :surrender 
+    when :surrender
       print "#{player.subject}は"
       print "手札#{i}で" if player.confirm_split
       puts "サレンダーしたので、ベットした#{hand.bet}枚の半分が払い戻され、所持チップ数は#{player.chip}枚となります。"
@@ -149,7 +148,7 @@ module Display
     gambler_array.each do |gambler|
       gambler.hands.each_with_index do |hand, i|
         print "#{gambler.subject}"
-        print"の手札#{i+1}" if gambler.confirm_split
+        print "の手札#{i + 1}" if gambler.confirm_split
         puts "の最終得点は#{hand.point}点です。"
       end
     end

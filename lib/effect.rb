@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # frozen_string_literal: true
 
 require_relative "input"
@@ -37,7 +36,7 @@ module Effect
     hand = target.hands[0]
     if target.chip < hand.bet
       show_lack_chip("ダブルダウン")
-      return
+      nil
     else
       target.set_special = :double_down
       target.add_bet(hand.bet, hand)

@@ -8,7 +8,7 @@ module Display
     spade: "スペード",
     clover: "クローバー",
     diamond: "ダイヤ"
-  }
+  }.freeze
 
   # -------------------------------------------------------------------------------------------------
   # set_number_of_players
@@ -17,7 +17,7 @@ module Display
     puts "プレーヤーの人数を選択してください。(1/2/3)"
   end
 
-  def show_start_message(number) # TODO: 人数に制限をつける。それはDisplaySystemの外でやる
+  def show_start_message(number)
     puts "-----------------------------------------------------"
     puts "#{number}人が選択されました。プレーヤー#{number}人とディーラーで進行してきます。"
     puts "それでは、ブラックジャックを開始します。"
@@ -30,9 +30,13 @@ module Display
     puts "あなたの所持チップは#{player.chip}枚です。ベットする枚数を決めてください。(1以上1000以下の整数)"
   end
 
+  def show_bet_error
+    puts "チップが不足しています。再度、ベットする枚数を決めてください。(1以上1000以下の整数)"
+  end
+
   # -------------------------------------------------------------------------------------------------
   # play_turn
-  def show_hands(gambler_array)
+  def show_hands_all(gambler_array)
     gambler_array.each do |gambler|
       cards = gambler.hands[0].cards
       cards.each_with_index do |card, i|
@@ -40,25 +44,33 @@ module Display
         if gambler.is_a?(Dealer) && times == 2
           puts "#{gambler.subject}の#{times}番目に引いたカードはわかりません。"
         else
-          puts "#{gambler.subject}の#{times}番目に引いたカードは#{NAME_LIST[card.suit]}の#{card.number}です。"
+          puts "#{gambler.subject}の#{times}番目に引いたカードは [#{NAME_LIST[card.suit]}の#{card.number}] です。"
         end
       end
     puts_line
+    sleep 1
     end
   end
 
   def show_dealer_hand_second(dealer)
     hand = dealer.hands[0]
     suit, number = hand.cards[1].suit, hand.cards[1].number
-    puts "#{dealer.subject}の引いた2枚目のカードは#{NAME_LIST[suit]}の#{number}でした。"
+    puts "#{dealer.subject}の引いた2枚目のカードは [#{NAME_LIST[suit]}の#{number}] でした。"
   end
 
-  def show_point(gambler, hand)
-    print "#{gambler.subject}の現在の得点は#{hand.point}点です。"
+  def show_hands(gambler, hand, i)
+    print "#{gambler.subject}の手札"
+    print "#{i}" if gambler.confirm_split
+    print "は"
+    hand.cards.each do |card|
+      print(" [#{NAME_LIST[card.suit]}の#{card.number}]")
+    end
+    print(" (#{hand.point}点)です。")
+    sleep 1
   end
 
   def show_confirm_continue
-    puts "カードを引きますか？(Y/n)"
+    puts "カードを引きますか？(Y/n)"    
     puts_line
   end
 
@@ -67,8 +79,18 @@ module Display
     puts_line
   end
 
-  def show_drawing_a_card(card, gambler)
-    puts "#{gambler.subject}は#{NAME_LIST[card.suit]}の#{card.number}を引いた。"
+  def show_drawing_a_card(card, gambler, i)
+    print "#{gambler.subject}が"
+    print "手札#{i}に" if gambler.confirm_split
+    puts "引いたカードは [#{NAME_LIST[card.suit]}の#{card.number}] です。"
+  end
+
+  def show_turn_end(gambler, i)
+    print "#{gambler.subject}"
+    print "の手札#{i}" if gambler.confirm_split
+    puts "のターンは終了です。"
+    puts_line
+    sleep 1
   end
 
   ## effect
@@ -94,18 +116,29 @@ module Display
 
   ## point
   def show_bust
-    puts "バーストしたので、ターンを終了します。"
-    puts_line
+    print "バーストしました。"
   end
 
   # -------------------------------------------------------------------------------------------------
   # deal_outcome
   def show_final_chip(player, hand, i)
     case hand.outcome
-    when :win then puts "#{player.subject}は手札#{i}で勝利したので、ベットした#{hand.bet}枚の1.5倍を払い戻し、所持チップ数は#{player.chip.to_i}枚となります。"
-    when :lose then puts "#{player.subject}は手札#{i}で敗北したので、ベットした#{hand.bet}枚は失われ、所持チップ数は#{player.chip}枚となります。"
-    when :tie then puts "#{player.subject}は手札#{i}で引き分けたので、ベットした#{hand.bet}枚を払い戻し、所持チップ数は#{player.chip}枚となります。"
-    when :surrender then puts "#{player.subject}は手札#{i}でサレンダーしたので、ベットした#{hand.bet}枚の半分を払い戻し、所持チップ数は#{player.chip.to_i}枚となります。"
+    when :win
+      print "#{player.subject}は"
+      print "手札#{i}で" if player.confirm_split
+      puts "勝利したので、ベットした#{hand.bet}枚の1.5倍が払い戻され、所持チップ数は#{player.chip}枚となります。"
+    when :lose
+      print "#{player.subject}は"
+      print "手札#{i}で" if player.confirm_split
+      puts "敗北したので、ベットした#{hand.bet}枚が失われ、所持チップ数は#{player.chip}枚となります。"
+    when :tie 
+      print "#{player.subject}は"
+      print "手札#{i}で" if player.confirm_split
+      puts "引き分けたので、ベットした#{hand.bet}枚が払い戻され、所持チップ数は#{player.chip}枚となります。"
+    when :surrender 
+      print "#{player.subject}は"
+      print "手札#{i}で" if player.confirm_split
+      puts "サレンダーしたので、ベットした#{hand.bet}枚の半分が払い戻され、所持チップ数は#{player.chip}枚となります。"
     end
   end
 
@@ -115,9 +148,12 @@ module Display
   def show_final_point(gambler_array)
     gambler_array.each do |gambler|
       gambler.hands.each_with_index do |hand, i|
-        puts "#{gambler.subject}の手札#{i+1}の最終得点は#{hand.point}点です。"
+        print "#{gambler.subject}"
+        print"の手札#{i+1}" if gambler.confirm_split
+        puts "の最終得点は#{hand.point}点です。"
       end
     end
+    sleep 1.5
     puts_line
   end
 
@@ -126,22 +162,8 @@ module Display
     puts_line
   end
 
-  private
-    def puts_line
-      puts "--------------------------------------------------------------"
-    end
-
-
-
-
-
-
-  # def self.show_end_message
-  #   puts "ブラックジャックを終了します。"
-  #   puts_line
-  # end
-
-
+  # -------------------------------------------------------------------------------------------------
+  # other
   def show_yn
     puts "Yかnを入力してください。"
   end
@@ -157,4 +179,9 @@ module Display
   def show_number_range
     puts "1以上1000以下の整数を入力してください。"
   end
+
+  private
+    def puts_line
+      puts "------------------------------------------------------------------------------------------"
+    end
 end

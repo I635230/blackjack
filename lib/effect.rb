@@ -6,23 +6,20 @@ require_relative "display"
 require_relative "hand"
 
 # effect
-class Effect
+module Effect
   include Display
-
-  def initialize
-    @input = Input.new
-  end
+  include Input
 
   def deal_special_effect(target)
     show_confirm_special_effect
-    if Input.input_confirm_special
+    if input_confirm_special
       show_option_special_effect
       special_effect(target)
     end
   end
 
   def special_effect(target)
-    case @input.input_special_effect
+    case input_special_effect
     when :surrender then surrender(target)
     when :double_down then double_down(target)
     when :split then split(target)

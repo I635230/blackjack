@@ -4,10 +4,8 @@
 # hand
 class Hand
   attr_reader :cards, :point, :outcome, :bet, :draw_count
-  @@hand_count = 0
 
   def initialize
-    @@hand_count += 1
     @cards = []
     @draw_count = 0
   end

@@ -1,8 +1,12 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
+require_relative "display"
+
 # input
-class Input
+module Input
+  include Display
+
   def input_number_of_players
     input = gets.chomp
     case input
@@ -10,7 +14,7 @@ class Input
     when '2' then input.to_i
     when '3' then input.to_i
     else
-      Display.show_123
+      show_123
       input_number_of_players
     end
   end
@@ -20,7 +24,7 @@ class Input
     if input >= 1 && input <= 1000
       input
     else
-      Display.show_number_range
+      show_number_range
       input_bet
     end
   end
@@ -32,40 +36,33 @@ class Input
     when "sp" then :split
     when "n" then false
     else
-      Display.show_special
-      self.input_special_effect
+      show_special
+      input_special_effect
     end
   end
 
 
   def input_judge_continue
-    input_ys
+    input_yn
   end
 
-  def self.input_confirm_special
-    input = gets.chomp.downcase
-    case input
-    when 'y' then true
-    when 'n' then false
-    else
-      Display.show_yn
-      input_judge_continue
-    end  
+  def input_confirm_special
+    input_yn
   end
 
   def input_confirm_continue
-    input_ys
+    input_yn
   end
 
   private
-    def input_ys
+    def input_yn
       input = gets.chomp.downcase
       case input
       when 'y' then true
       when 'n' then false
       else
-        Display.show_yn
-        input_judge_continue
-      end  
+        show_yn
+        input_yn
+      end
     end
 end

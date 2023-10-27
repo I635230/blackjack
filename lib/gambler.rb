@@ -19,4 +19,9 @@ class Gambler
   def reset_hand
     @hands = [Hand.new]
   end
+
+  def confirm_split
+    return true if @special == :split
+    false
+  end
 end

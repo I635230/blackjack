@@ -19,14 +19,6 @@ class Deck
     end
   end
 
-  # def make_deck
-  #   Card::SUITS.each do |suit|
-  #     %w[A A A A A A A A A A].each do |number|
-  #       @cards.push(Card.new(suit, number))
-  #     end
-  #   end
-  # end
-
   def shuffle
     @cards.shuffle!
   end

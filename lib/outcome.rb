@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 # outcome
-class Outcome
+module Outcome
   def set_outcome(player_hand, dealer_hand)
     return if [:lose, :surrender].include?(player_hand.outcome)
     return deal_dealer_lose(player_hand) if dealer_hand.outcome == :lose

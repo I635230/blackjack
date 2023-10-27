@@ -1,8 +1,12 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
+require_relative "display"
+
 # point
 class Point
+  include Display
+
   def calculate(hand)
     point_list = [0]
     hand.cards.each do |card|
@@ -37,7 +41,7 @@ class Point
   def deal_bust(hand)
     if hand.point > 21
       hand.set_outcome = :lose
-      Display.show_bust
+      show_bust
       true
     else
       false

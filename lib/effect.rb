@@ -7,14 +7,16 @@ require_relative "hand"
 
 # effect
 class Effect
+  include Display
+
   def initialize
     @input = Input.new
   end
 
   def deal_special_effect(target)
-    Display.show_confirm_special_effect
+    show_confirm_special_effect
     if Input.input_confirm_special
-      Display.show_option_special_effect
+      show_option_special_effect
       special_effect(target)
     end
   end
@@ -31,13 +33,13 @@ class Effect
   def surrender(target)
     target.set_special = :surrender
     target.hands[0].set_outcome = :surrender
-    Display.show_decision_surrender(target)
+    show_decision_surrender(target)
   end
 
   def double_down(target)
     hand = target.hands[0]
     if target.chip < hand.bet
-      Display.show_lack_chip("ダブルダウン")
+      show_lack_chip("ダブルダウン")
       return
     else
       target.set_special = :double_down
@@ -49,7 +51,7 @@ class Effect
   def split(target)
     hands = target.hands
     if target.chip < hands[0].bet
-      Display.show_lack_chip("スプリット")
+      show_lack_chip("スプリット")
       return
     end
     if confirm_same(hands[0].cards[0], hands[0].cards[1])
@@ -59,7 +61,7 @@ class Effect
       target.set_bet(hands[0].bet, hands[1])
       puts "スプリットしました。"
     else
-      Display.show_not_match
+      show_not_match
     end
   end
 

@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 # display
-class Display
+module Display
   NAME_LIST = {
     heart: "ハート",
     spade: "スペード",
@@ -72,28 +72,28 @@ class Display
   end
 
   ## effect
-  def self.show_confirm_special_effect
+  def show_confirm_special_effect
     puts "特殊ルールを使用しますか？(Y/n)"
   end
 
-  def self.show_option_special_effect
+  def show_option_special_effect
     puts "使用する特殊ルールを選択してください(sr/dd/sp/n)"
   end
 
-  def self.show_lack_chip(special_rule)
+  def show_lack_chip(special_rule)
     puts "チップが不足しているため、#{special_rule}は行えません。"
   end
 
-  def self.show_not_match
+  def show_not_match
     puts "番号が一致していないため、スプリットは行えません。"
   end
 
-  def self.show_decision_surrender(gambler)
+  def show_decision_surrender(gambler)
     puts "#{gambler.subject}はサレンダーしました。"
   end
 
   ## point
-  def self.show_bust
+  def show_bust
     puts "バーストしたので、ターンを終了します。"
     puts_line
   end
@@ -127,10 +127,6 @@ class Display
   end
 
   private
-    def self.puts_line
-      puts "--------------------------------------------------------------"
-    end
-
     def puts_line
       puts "--------------------------------------------------------------"
     end
@@ -146,19 +142,19 @@ class Display
   # end
 
 
-  def self.show_yn
+  def show_yn
     puts "Yかnを入力してください。"
   end
 
-  def self.show_123
+  def show_123
     puts "1, 2, 3のいずれかを入力してください。"
   end
 
-  def self.show_special
+  def show_special
     puts "sr, dd, sp, nのいずれかを入力してください。"
   end
 
-  def self.show_number_range
+  def show_number_range
     puts "1以上1000以下の整数を入力してください。"
   end
 end

@@ -24,6 +24,16 @@ class Game
     make_basic_instance
   end
 
+  def play_game
+    loop do
+      set_chip
+      set_environment
+      play_turn
+      deal_outcome
+      break unless confirm_continue
+    end
+  end
+
   def set_number_of_players
     show_select_number_of_players
     @number_of_players = input_number_of_players
